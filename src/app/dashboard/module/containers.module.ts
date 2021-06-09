@@ -1,13 +1,14 @@
 import {NgModule} from '@angular/core';
-import {ContainersComponent} from "../component/dashboard/containers/containers.component";
+import {ContainersListComponent} from "../component/containers/containers-list.component";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {CoreRoutingModule} from "./core-routing.module";
-import {DashboardComponent} from "../component/dashboard/dashboard-component";
-import {NavbarModule} from "../mock/navbar/navbar-module";
+import {ContainersRoutingModule} from "./containers-routing.module";
+import {ContainersComponent} from "../component/containers-component";
+import {NavbarModule} from "../../core/mock/navbar/navbar-module";
 import {TableModule} from "primeng/table";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
+import {TooltipModule} from "primeng/tooltip";
 
 
 @NgModule({
@@ -21,14 +22,15 @@ import {RippleModule} from "primeng/ripple";
     RippleModule,
 
 
-    CoreRoutingModule,
+    ContainersRoutingModule,
+    TooltipModule,
   ],
   exports: [],
   declarations: [
+    ContainersListComponent,
     ContainersComponent,
-    DashboardComponent,
   ],
   providers: [],
 })
-export class CoreModule {
+export class ContainersModule {
 }

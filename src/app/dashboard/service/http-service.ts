@@ -54,6 +54,7 @@ export class HttpService {
     return this.http.delete<any>(this.getServerUrl() + url, data);
   }
   post(data: any, url: string, opts?: any) {
+    data.method = data.method || 'GET';
     let options: { [k: string]: any };
     options = (opts ? opts : {});
     options.headers = this.headers;

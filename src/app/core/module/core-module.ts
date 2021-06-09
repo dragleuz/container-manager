@@ -15,11 +15,13 @@ import {RippleModule} from "primeng/ripple";
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CoreRoutingModule,
     NavbarModule,
     TableModule,
     ButtonModule,
-    RippleModule
+    RippleModule,
+
+
+    CoreRoutingModule,
   ],
   exports: [],
   declarations: [

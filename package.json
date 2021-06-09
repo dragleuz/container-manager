@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -o --port=80",
+    "publish": "ng build --prod && npm run deploy",
+    "deploy": "firebase deploy",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -11,6 +13,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~12.0.3",
+    "@angular/cdk": "^12.0.4",
     "@angular/common": "~12.0.3",
     "@angular/compiler": "~12.0.3",
     "@angular/core": "~12.0.3",
@@ -18,6 +21,9 @@
     "@angular/platform-browser": "~12.0.3",
     "@angular/platform-browser-dynamic": "~12.0.3",
     "@angular/router": "~12.0.3",
+    "primeflex": "^2.0.0",
+    "primeicons": "^4.1.0",
+    "primeng": "^12.0.0-rc.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"

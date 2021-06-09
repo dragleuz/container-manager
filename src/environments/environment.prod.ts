@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://registry.dragle.uz/'
+  apiUrl: 'https://dragle-ops.herokuapp.com/'
 };

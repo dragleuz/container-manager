@@ -9,6 +9,10 @@ import {environment} from "@env/environment";
 })
 export class HttpService {
   private headers = new HttpHeaders()
+    .append('Access-Control-Allow-Headers', 'Content-Type')
+    .append('Access-Control-Allow-Methods', 'GET')
+    .append('Access-Control-Allow-Methods', 'POST')
+    .append('Access-Control-Allow-Origin', '*')
     .append('Content-Type', 'application/json')
     .append('Cache-control', 'no-cache');
 

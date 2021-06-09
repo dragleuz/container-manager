@@ -1,0 +1,29 @@
+<hr>
+<p-table [columns]="cols" [value]="containers" styleClass="p-datatable-responsive-demo" selectionMode="single" [(selection)]="selected" dataKey="Id">
+  <ng-template pTemplate="caption">
+    Image List
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>#</th>
+      <th>Image name</th>
+      <th>Timestamp</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-container let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="container" [pSelectableRowIndex]="rowIndex">
+      <td>{{rowIndex + 1}}</td>
+      <td>{{container.Image}}</td>
+      <td>{{container.Created}}</td>
+      <td>
+        <button pButton pRipple type="button" icon="pi pi-pause" class="p-button-rounded p-button-outlined"></button>
+        <button pButton pRipple type="button" icon="pi pi-play" class="p-button-rounded p-button-outlined"></button>
+        <button pButton pRipple type="button" icon="pi pi-refresh" class="p-button-rounded p-button-outlined"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    Footer
+  </ng-template>
+</p-table>

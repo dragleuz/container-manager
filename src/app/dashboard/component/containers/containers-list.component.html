@@ -1,5 +1,6 @@
 <hr>
-<p-table [columns]="cols" [value]="containers" styleClass="p-datatable-responsive-demo p-datatable-gridlines" selectionMode="single"
+<p-table [columns]="cols" [value]="containers$ | async" styleClass="p-datatable-responsive-demo p-datatable-gridlines"
+         selectionMode="single"
          [(selection)]="selected" dataKey="Id">
   <ng-template pTemplate="caption">
     Container List
@@ -8,16 +9,19 @@
     <tr>
       <th>#</th>
       <th class="text-center">Image name</th>
-      <th class="text-center">Timestamp</th>
+      <th class="text-center">Created</th>
+      <th class="text-center">Changed</th>
       <th class="text-center">Actions</th>
       <th class="text-center">Status</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-container let-rowIndex="rowIndex">
     <tr [pSelectableRow]="container" [pSelectableRowIndex]="rowIndex">
-      <td>{{rowIndex + 1}}</td>
+      <!--      <td>{{rowIndex + 1}}</td>-->
+      <td>{{container.Id}}</td>
       <td>{{container.Image}}</td>
-      <td>{{(container.Created) * 1000 | date: 'medium'}}</td>
+      <td>{{(container.Created.seconds) * 1000 | date: 'medium'}}</td>
+      <td>{{(container.Changed?.seconds) * 1000 | date : 'medium'}}</td>
       <td class="text-center">
         <button pButton pRipple type="button" icon="pi pi-pause"
                 class="p-button-rounded p-button-outlined p-button-danger"
@@ -34,6 +38,7 @@
         <button style="margin-left: 5px" pButton pRipple type="button" icon="pi pi-refresh"
                 class="p-button-rounded p-button-outlined p-button-warning"
                 pTooltip="Update container" tooltipPosition="top"
+                (click)="updateContainer(container)"
         ></button>
       </td>
       <td class="text-center">
@@ -45,3 +50,14 @@
     </tr>
   </ng-template>
 </p-table>
+<p-panel header="Output" [toggleable]="true" [collapsed]="console.collapsed">
+  <p-scrollPanel  #sc [style]="{width: '100%', height: '200px'}"  styleClass="custombar1">
+    <pre>{{console.content}}</pre>
+  </p-scrollPanel>
+  <span class=" p-grid p-jc-end">
+    <button pButton pRipple type="button" icon="pi pi-trash"
+            class="p-button-rounded p-button-outlined"
+            pTooltip="Clear output" tooltipPosition="top" (click)="console.content = ''"
+    ></button>
+  </span>
+</p-panel>

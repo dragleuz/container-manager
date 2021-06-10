@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpService} from "../../service/http-service";
-import {Subscription} from "rxjs";
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {HttpService} from "../../../core/service/http-service";
+import {Observable, Subscription} from "rxjs";
+import {ContainerService} from "../../service/container.service";
+import {take} from "rxjs/operators";
+import {Container} from "../../model/container.model";
 
 
 @Component({
@@ -9,7 +12,9 @@ import {Subscription} from "rxjs";
   styleUrls: ['containers-list-component.scss']
 })
 
-export class ContainersListComponent implements OnInit {
+export class ContainersListComponent implements OnInit, OnDestroy {
+
+  @ViewChild('sc') scrollPanel: any;
   subs: Subscription = new Subscription();
   cols = [
     {field: '#', header: '#'},
@@ -17,47 +22,129 @@ export class ContainersListComponent implements OnInit {
     {field: 'Created', header: 'Timestamp'},
   ];
   selected = {};
+  containers$: Observable<any> = new Observable();
+  console = {
+    collapsed: false,
+    content: ''
+  }
 
-  containers = [
-    {Id: '68f4b0b28230', Image: 'bigbro1221/fm:latest', up: false, pullCmd: ''},
-    {Id: 'cf02942417bb', Image: 'bigbro1221/dl:latest', up: false},
-    {Id: '2001d0c21001', Image: 'bigbro1221/dl-api:latest', up: false},
-    {Id: 'a19e1b54ed5d', Image: 'bigbro1221/nano:latest', up: false},
-    {Id: 'df088f1c7817', Image: 'bigbro1221/cs-api:latest', up: false},
-  ];
+  currentContainer: any;
 
   constructor(
-    private http: HttpService
+    private http: HttpService,
+    public service: ContainerService,
   ) {
   }
 
-  async ngOnInit() {
-    await this.getContainers();
-    this.selected = this.containers[0];
+  ngOnInit() {
+    this.getContainers();
   }
 
   getContainers() {
+    this.containers$ = this.service.containers$
+  }
+
+  toggleContainerImplement(container: any, action: string) {
     return new Promise<void>(resolve => {
-      this.http.post({path: 'containers/json'}, 'docker').subscribe(data => {
-        this.containers.map((c: any) => {
-          let fetchedContainer: any = data.find((container: any) => container.Image == c.Image)
-          if (!!fetchedContainer) {
-            c.up = true;
-            c.Created = fetchedContainer.Created;
-            c.Id = fetchedContainer.Id;
-          } else {
-            c.up = false;
-            c.Created = undefined;
-          }
-        });
-        resolve();
-      })
+      this.subs.add(this.http.post({
+        path: `containers/${container.Id}/${action}`,
+        method: 'POST'
+      }, 'docker')
+        .pipe(take(1))
+        .subscribe(async data => {
+          resolve();
+        }))
     })
   }
 
-  toggleContainer(image: any, action: string) {
-    this.http.post({path: `containers/${image.Id}/${action}`, method: 'POST'}, 'docker').subscribe(async data => {
-      await this.getContainers();
+  async toggleContainer(container: Container, action: string) {
+    await this.toggleContainerImplement(container, action);
+    return this.service.save({
+      ...container,
+      up: action == 'start',
+      Changed: new Date(),
+      RunCommand: {
+        "Image": "bigbro1221/cs-api:latest",
+        "ExposedPorts": {
+          "8080/tcp": {}
+        },
+        "PortBindings": {
+          "8080/tcp": [
+            {
+              "HostPort": "3232"
+            }
+          ]
+        },
+        "RestartPolicy": {
+          "Name": "always"
+        }
+      }
+    }, container.id);
+  }
+
+  async updateContainer(c: Container) {
+    await this.pullImage(c);
+    await this.buildNewImage(c);
+  }
+
+  pullImage(c: Container) {
+    this.log('pulling image');
+    return new Promise<void>(resolve => {
+      this.subs.add(this.http.post({
+        path: `images/create?fromImage=${c.Image}`,
+        method: 'POST',
+      }, 'docker', {responseType: 'text'})
+        .pipe(take(1))
+        .subscribe((data: string) => {
+          this.log(data);
+          resolve();
+        }))
     })
+  }
+
+  buildNewImage(c: Container) {
+    this.log('Building new image');
+    return new Promise<void>(resolve => {
+      this.subs.add(this.http.post({
+        image: c.Image,
+        body: {
+          "Image": "bigbro1221/cs-api:latest",
+          "ExposedPorts": {
+            "8080/tcp": {}
+          },
+          "PortBindings": {
+            "8080/tcp": [
+              {
+                "HostPort": "3232"
+              }
+            ]
+          },
+          "RestartPolicy": {
+            "Name": "always"
+          },
+        }
+      }, 'docker/build', {responseType: 'text'})
+        .pipe(take(1))
+        .subscribe(async data => {
+          let id;
+          this.log(data)
+          if (JSON.parse(data)['Id']) {
+            id = JSON.parse(data)['Id'].substring(0, 12);
+          }
+          await this.toggleContainer(c, 'stop')
+          await this.service.save({...c, Id: id}, c.id)
+          await this.toggleContainer({...c, Id: id}, 'start')
+          resolve();
+        }))
+    })
+  }
+
+  log(str: any) {
+    this.console.collapsed = false;
+    this.console.content = this.console.content + '\n' + str;
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 }

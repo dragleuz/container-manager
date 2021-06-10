@@ -6,6 +6,9 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientModule} from "@angular/common/http";
 import {ControlComponent} from "@app/control/component/control.component";
+import {AngularFireModule} from "@angular/fire";
+import {AngularFirestoreModule} from "@angular/fire/firestore";
+import {environment} from "@env/environment";
 
 @NgModule({
   declarations: [
@@ -14,6 +17,8 @@ import {ControlComponent} from "@app/control/component/control.component";
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebase, ),
+    AngularFirestoreModule.enablePersistence(),
     AppRoutingModule,
     HttpClientModule,
   ],

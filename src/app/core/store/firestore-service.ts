@@ -41,9 +41,9 @@ export abstract class FirestoreService<T> {
       }),
       tap(r => {
         if (!environment.production) {
-          // console.groupCollapsed(`Firestore Streaming [${this.basePath}] [collection$]`);
-          // console.table(r);
-          // console.groupEnd();
+          console.groupCollapsed(`Firestore Streaming [${this.basePath}] [collection$]`);
+          console.table(r);
+          console.groupEnd();
         }
       }),
     );

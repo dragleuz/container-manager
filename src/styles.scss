@@ -3,3 +3,10 @@
 .text-center {
   text-align: center!important;
 }
+
+.text-color {
+  color: var(--text-color) !important;
+}
+.text-color-secondary {
+  color: var(--text-color-secondary) !important;
+}

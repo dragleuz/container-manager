@@ -7,12 +7,7 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th>#</th>
-      <th class="text-center">Image name</th>
-      <th class="text-center">Created</th>
-      <th class="text-center">Changed</th>
-      <th class="text-center">Actions</th>
-      <th class="text-center">Status</th>
+      <th class="text-center" *ngFor="let col of cols">{{col}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-container let-rowIndex="rowIndex">

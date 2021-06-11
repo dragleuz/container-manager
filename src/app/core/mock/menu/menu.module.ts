@@ -1,8 +1,9 @@
 import {NgModule} from '@angular/core';
-import {NavbarComponent} from "./navbar.component";
+import {MenuComponent} from "./menu.component";
 import {TabMenuModule} from "primeng/tabmenu";
 import {CommonModule} from "@angular/common";
 import {MenubarModule} from "primeng/menubar";
+import {DropdownModule} from "primeng/dropdown";
 
 
 @NgModule({
@@ -10,11 +11,12 @@ import {MenubarModule} from "primeng/menubar";
 
     TabMenuModule,
     CommonModule,
-    MenubarModule
+    MenubarModule,
+    DropdownModule
   ],
-  exports: [NavbarComponent],
-  declarations: [NavbarComponent],
+  exports: [MenuComponent],
+  declarations: [MenuComponent],
   providers: [],
 })
-export class NavbarModule {
+export class MenuModule {
 }

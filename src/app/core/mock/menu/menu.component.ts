@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MenuItem} from "primeng/api";
+import {Server} from "../../../control/server.model";
+import {ControlService} from "../../../control/service/control-service";
 
 @Component({
   selector: 'app-navbar',
@@ -8,10 +10,12 @@ import {MenuItem} from "primeng/api";
 
 export class MenuComponent implements OnInit {
 
-  servers = [
-    {'name': 'ClearSmile', value: 'cs', url: ''},
-    {'name': 'Anton', value: 'dl', url: ''},
+  servers: Server[] = [
+    {'name': 'Anton', id: 'dl', url: ''},
+    {'name': 'ClearSmile', id: 'cs', url: ''},
   ]
+
+  activeServer: Server = this.servers[0];
 
   items: MenuItem[] = [
     {label: 'Containers', icon: 'pi pi-fw pi-home', routerLink: '/containers'},
@@ -26,14 +30,13 @@ export class MenuComponent implements OnInit {
   activeItem: MenuItem = this.items[0];
 
   constructor(
+    public service: ControlService,
   ) {
   }
 
   ngOnInit() {
+    this.service.setActiveServer(this.activeServer)
   }
 
-  setactiveItem(item: MenuItem) {
-    this.activeItem = item;
-  }
 
 }

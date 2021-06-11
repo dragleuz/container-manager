@@ -3,7 +3,8 @@ export interface Container {
   Id: string,
   Created: Date,
   Changed: Date,
-  up: boolean,
   Image: string,
   RunCommand: { [k: string]: any },
+  up: boolean,
+  Host: string
 }

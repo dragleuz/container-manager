@@ -4,6 +4,7 @@
          [(selection)]="selected" dataKey="Id">
   <ng-template pTemplate="caption">
     Container List
+<!--    <button pButton pRipple (click)="settings()">set</button>-->
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
@@ -11,7 +12,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-container let-rowIndex="rowIndex">
-    <tr [pSelectableRow]="container" [pSelectableRowIndex]="rowIndex">
+    <tr [pSelectableRow]="container" [pSelectableRowIndex]="rowIndex" *ngIf="container.Host == (controlService.activeServer | async)?.id">
       <!--      <td>{{rowIndex + 1}}</td>-->
       <td>{{container.Id}}</td>
       <td>{{container.Image}}</td>

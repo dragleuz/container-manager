@@ -4,6 +4,7 @@ import {TabMenuModule} from "primeng/tabmenu";
 import {CommonModule} from "@angular/common";
 import {MenubarModule} from "primeng/menubar";
 import {DropdownModule} from "primeng/dropdown";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import {DropdownModule} from "primeng/dropdown";
     TabMenuModule,
     CommonModule,
     MenubarModule,
-    DropdownModule
+    DropdownModule,
+    FormsModule
   ],
   exports: [MenuComponent],
   declarations: [MenuComponent],

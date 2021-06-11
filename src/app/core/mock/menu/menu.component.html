@@ -1,3 +1,4 @@
 <p-menubar [model]="items">
-  <p-dropdown [options]="servers" optionLabel="name" placeholder="Server"></p-dropdown>
+  <p-dropdown [options]="servers" [(ngModel)]="activeServer" optionLabel="name" placeholder="Server"
+              (onChange)="service.setActiveServer($event.value)"></p-dropdown>
 </p-menubar>

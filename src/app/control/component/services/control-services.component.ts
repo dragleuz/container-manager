@@ -1,6 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpService} from "../../../core/service/http-service";
 import {Subscription} from "rxjs";
+import {ControlService} from "../../service/control-service";
+import {Server} from "../../server.model";
 
 @Component({
   templateUrl: 'control-services.component.html'
@@ -15,10 +17,12 @@ export class ControlServicesComponent implements OnInit, OnDestroy {
   ]
   loaded = false;
   cols = ['Service', 'Status', 'Actions'];
-
+  activeServer: Server = {};
   constructor(
     private http: HttpService,
+    private controlService: ControlService
   ) {
+    this.controlService.activeServer.subscribe(server => this.activeServer = server)
   }
 
   async ngOnInit() {
@@ -31,7 +35,7 @@ export class ControlServicesComponent implements OnInit, OnDestroy {
     return new Promise<void>(resolve => {
       this.subs.add(
         this.http.post(
-          {command: `systemctl is-active ${this.switches[serviceIdx]['service']}`},
+          {host: this.activeServer.id, command: `systemctl is-active ${this.switches[serviceIdx]['service']}`},
           'anton/exec', {responseType: 'text'})
           .subscribe(status => {
             this.switches[serviceIdx]['status'] = status == 'active';
@@ -44,7 +48,7 @@ export class ControlServicesComponent implements OnInit, OnDestroy {
     let action = service.status ? 'start' : 'stop';
     return new Promise(resolve => {
       this.subs.add(
-        this.http.post({command: `systemctl ${action} ${service['service']}`}, 'anton/exec', {responseType: 'text'})
+        this.http.post({host: this.activeServer.id, command: `systemctl ${action} ${service['service']}`}, 'anton/exec', {responseType: 'text'})
           .subscribe(data => {
             this.log(data);
           })

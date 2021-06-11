@@ -4,6 +4,7 @@ import {Observable, Subscription} from "rxjs";
 import {ContainerService} from "../../service/container.service";
 import {take} from "rxjs/operators";
 import {Container} from "../../model/container.model";
+import {ControlService} from "../../../control/service/control-service";
 
 
 @Component({
@@ -26,7 +27,8 @@ export class ContainersListComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpService,
-    public service: ContainerService,
+    private service: ContainerService,
+    public controlService: ControlService,
   ) {
   }
 
@@ -41,7 +43,7 @@ export class ContainersListComponent implements OnInit, OnDestroy {
   toggleContainerImplement(container: any, action: string) {
     return new Promise<void>(resolve => {
       this.subs.add(this.http.post({
-        host: 'dl',
+        host: container.Host,
         path: `containers/${container.Id}/${action}`,
         method: 'POST'
       }, 'docker')
@@ -52,7 +54,7 @@ export class ContainersListComponent implements OnInit, OnDestroy {
     })
   }
 
-  async toggleContainer(container: Container, action: string) {
+  async toggleContainer(container: any, action: string) {
     await this.toggleContainerImplement(container, action);
     return this.service.save({
       ...container,
@@ -70,7 +72,7 @@ export class ContainersListComponent implements OnInit, OnDestroy {
     this.log('pulling image');
     return new Promise<void>(resolve => {
       this.subs.add(this.http.post({
-        host: 'dl',
+        host: c.Host,
         path: `images/create?fromImage=${c.Image}`,
         method: 'POST',
       }, 'docker', {responseType: 'text'})
@@ -86,7 +88,7 @@ export class ContainersListComponent implements OnInit, OnDestroy {
     this.log('Building new image');
     return new Promise<void>(resolve => {
       this.subs.add(this.http.post({
-        host: 'dl',
+        host: c.Host,
         image: c.Image,
         body: c.RunCommand
       }, 'docker/build', {responseType: 'text'})
@@ -109,6 +111,23 @@ export class ContainersListComponent implements OnInit, OnDestroy {
   log(str: any) {
     this.console.collapsed = false;
     this.console.content = this.console.content + '\n' + str;
+  }
+
+  settings() {
+    this.service.getContainer$('EGf4OV7fWX7VQJ6mrxjr')
+      .pipe(take(1))
+      .subscribe(c => {
+      console.log(c);
+      this.service.save({
+        ...c, RunCommand:
+          {
+            "Image": "bigbro1221/cs:latest",
+            "ExposedPorts": {"80/tcp": {}},
+            "PortBindings": {"80/tcp": [{"HostPort": "3233"}]},
+            "RestartPolicy": {"Name": "always"}
+          }
+      }, '0qWz1cTuuaTohSxpAVUk')
+    });
   }
 
   ngOnDestroy() {

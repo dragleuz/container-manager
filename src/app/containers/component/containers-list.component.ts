@@ -5,6 +5,7 @@ import {ContainerService} from "../service/container.service";
 import {take} from "rxjs/operators";
 import {Container} from "../model/container.model";
 import {ControlService} from "../../control/service/control-service";
+import {ScreenResService} from "../../core/service/screen-res.service";
 
 
 @Component({
@@ -17,7 +18,15 @@ export class ContainersListComponent implements OnInit, OnDestroy {
 
   @ViewChild('sc') scrollPanel: any;
   subs: Subscription = new Subscription();
-  cols = ['#', 'Image', 'Created', 'Changed', 'Actions', 'Status'];
+  cols = [
+    {title: '#', hideInLowRes: false},
+    {title: 'Image', hideInLowRes: false},
+    {title: 'Created', hideInLowRes: true},
+    {title: 'Changed', hideInLowRes: true},
+    {title: 'Actions', hideInLowRes: false},
+    // {title: 'Status', hideInLowRes: false}
+  ];
+
   selected = {};
   containers$: Observable<any> = new Observable();
   console = {
@@ -29,6 +38,7 @@ export class ContainersListComponent implements OnInit, OnDestroy {
     private http: HttpService,
     private service: ContainerService,
     public controlService: ControlService,
+    public screenRes: ScreenResService,
   ) {
   }
 
@@ -117,17 +127,17 @@ export class ContainersListComponent implements OnInit, OnDestroy {
     this.service.getContainer$('EGf4OV7fWX7VQJ6mrxjr')
       .pipe(take(1))
       .subscribe(c => {
-      console.log(c);
-      this.service.save({
-        ...c, RunCommand:
-          {
-            "Image": "bigbro1221/cs:latest",
-            "ExposedPorts": {"80/tcp": {}},
-            "PortBindings": {"80/tcp": [{"HostPort": "3233"}]},
-            "RestartPolicy": {"Name": "always"}
-          }
-      }, '0qWz1cTuuaTohSxpAVUk')
-    });
+        console.log(c);
+        this.service.save({
+          ...c, RunCommand:
+            {
+              "Image": "bigbro1221/cs:latest",
+              "ExposedPorts": {"80/tcp": {}},
+              "PortBindings": {"80/tcp": [{"HostPort": "3233"}]},
+              "RestartPolicy": {"Name": "always"}
+            }
+        }, '0qWz1cTuuaTohSxpAVUk')
+      });
   }
 
   ngOnDestroy() {

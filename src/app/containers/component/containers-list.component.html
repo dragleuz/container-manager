@@ -4,20 +4,25 @@
          [(selection)]="selected" dataKey="Id">
   <ng-template pTemplate="caption">
     Container List
-<!--    <button pButton pRipple (click)="settings()">set</button>-->
+    <!--    <button pButton pRipple (click)="settings()">set</button>-->
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th class="text-center" *ngFor="let col of cols">{{col}}</th>
+      <ng-container *ngFor="let col of cols">
+        <th class="text-center" *ngIf="!(col.hideInLowRes && (screenRes.low| async))">{{col.title}}</th>
+      </ng-container>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-container let-rowIndex="rowIndex">
-    <tr [pSelectableRow]="container" [pSelectableRowIndex]="rowIndex" *ngIf="container.Host == (controlService.activeServer | async)?.id">
-      <!--      <td>{{rowIndex + 1}}</td>-->
-      <td>{{container.Id}}</td>
-      <td>{{container.Image}}</td>
-      <td>{{(container.Created.seconds) * 1000 | date: 'medium'}}</td>
-      <td>{{(container.Changed?.seconds) * 1000 | date : 'medium'}}</td>
+    <tr [pSelectableRow]="container"
+        [pSelectableRowIndex]="rowIndex"
+        *ngIf="container.Host == (controlService.activeServer | async)?.id"
+        [style]="{color: container.up ? 'var(--teal-300)' : 'var(--pink-400)'}"
+    >
+      <td class="text-center">{{container.Id}}</td>
+      <td class="text-center">{{container.Image}}</td>
+      <td class="text-center" *ngIf="!(screenRes.low | async)">{{(container.Created.seconds) * 1000 | date: 'medium'}}</td>
+      <td class="text-center" *ngIf="!(screenRes.low | async)">{{(container.Changed?.seconds) * 1000 | date : 'medium'}}</td>
       <td class="text-center">
         <button pButton pRipple type="button" icon="pi pi-pause"
                 class="p-button-rounded p-button-outlined p-button-danger"
@@ -37,17 +42,18 @@
                 (click)="updateContainer(container)"
         ></button>
       </td>
-      <td class="text-center">
+ <!--     <td class="text-center">
         <button pButton pRipple type="button" [icon]="container.up ? 'pi pi-check' : 'pi pi-times'"
                 class="p-button-rounded p-button-outlined"
                 [ngClass]="container.up ? 'p-button-success' : 'p-button-danger'"
                 [pTooltip]="container.up ? 'Container is running' : 'Container is down'" tooltipPosition="top"
         ></button>
+      </td>-->
     </tr>
   </ng-template>
 </p-table>
 <p-panel header="Output" [toggleable]="true" [collapsed]="console.collapsed">
-  <p-scrollPanel  #sc [style]="{width: '100%', height: '200px'}"  styleClass="custombar1">
+  <p-scrollPanel #sc [style]="{width: '100%', height: '200px'}" styleClass="custombar1">
     <pre>{{console.content}}</pre>
   </p-scrollPanel>
   <span class=" p-grid p-jc-end">

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ScreenResService} from "@app/core/service/screen-res.service";
 import {AuthService} from "@auth0/auth0-angular";
 

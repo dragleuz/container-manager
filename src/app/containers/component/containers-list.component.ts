@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {HttpService} from "../../../core/service/http-service";
+import {HttpService} from "../../core/service/http-service";
 import {Observable, Subscription} from "rxjs";
-import {ContainerService} from "../../service/container.service";
+import {ContainerService} from "../service/container.service";
 import {take} from "rxjs/operators";
-import {Container} from "../../model/container.model";
-import {ControlService} from "../../../control/service/control-service";
+import {Container} from "../model/container.model";
+import {ControlService} from "../../control/service/control-service";
 
 
 @Component({

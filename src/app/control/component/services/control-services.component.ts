@@ -12,22 +12,31 @@ export class ControlServicesComponent implements OnInit, OnDestroy {
   subs: Subscription = new Subscription();
   logs = '';
   switches = [
-    {label: 'Docker', service: 'docker', status: true},
+    {label: 'Docker', service: 'docker', status: false},
     {label: 'Nginx', service: 'nginx', status: false},
   ]
-  loaded = false;
+  loaded = false
   cols = ['Service', 'Status', 'Actions'];
   activeServer: Server = {};
+
   constructor(
     private http: HttpService,
     private controlService: ControlService
   ) {
-    this.controlService.activeServer.subscribe(server => this.activeServer = server)
+    this.controlService.activeServer.subscribe(server => {
+      this.activeServer = server;
+      this.getServices();
+    })
   }
 
   async ngOnInit() {
-    await this.getService(0);
+    await this.getServices();
+  }
+
+  async getServices() {
+    this.loaded = false;
     await this.getService(1);
+    await this.getService(0);
     this.loaded = true;
   }
 
@@ -48,7 +57,10 @@ export class ControlServicesComponent implements OnInit, OnDestroy {
     let action = service.status ? 'start' : 'stop';
     return new Promise(resolve => {
       this.subs.add(
-        this.http.post({host: this.activeServer.id, command: `systemctl ${action} ${service['service']}`}, 'anton/exec', {responseType: 'text'})
+        this.http.post({
+          host: this.activeServer.id,
+          command: `systemctl ${action} ${service['service']}`
+        }, 'anton/exec', {responseType: 'text'})
           .subscribe(data => {
             this.log(data);
           })

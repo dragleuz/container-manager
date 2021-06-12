@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {ContainersListComponent} from "../component/containers/containers-list.component";
+import {ContainersListComponent} from "../component/containers-list.component";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ContainersRoutingModule} from "./containers-routing.module";

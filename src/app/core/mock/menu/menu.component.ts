@@ -11,8 +11,8 @@ import {ControlService} from "../../../control/service/control-service";
 export class MenuComponent implements OnInit {
 
   servers: Server[] = [
-    {'name': 'Anton', id: 'dl', url: ''},
     {'name': 'ClearSmile', id: 'cs', url: ''},
+    {'name': 'Anton', id: 'dl', url: ''},
   ]
 
   activeServer: Server = this.servers[0];

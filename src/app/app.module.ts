@@ -9,6 +9,7 @@ import {ControlComponent} from "@app/control/component/control.component";
 import {AngularFireModule} from "@angular/fire";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {environment} from "@env/environment";
+import {MenuModule} from "@app/core/mock/menu/menu.module";
 
 @NgModule({
   declarations: [
@@ -17,10 +18,11 @@ import {environment} from "@env/environment";
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AngularFireModule.initializeApp(environment.firebase, ),
+    AngularFireModule.initializeApp(environment.firebase,),
     AngularFirestoreModule.enablePersistence(),
     AppRoutingModule,
     HttpClientModule,
+    MenuModule,
   ],
   providers: [],
   bootstrap: [

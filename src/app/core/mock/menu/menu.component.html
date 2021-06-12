@@ -1,4 +1,10 @@
 <p-menubar [model]="items">
-  <p-dropdown [options]="servers" [(ngModel)]="activeServer" optionLabel="name" placeholder="Server"
-              (onChange)="service.setActiveServer($event.value)"></p-dropdown>
+
+  <ng-template pTemplate="start">
+    <p-dropdown [options]="servers" [(ngModel)]="activeServer" optionLabel="name" placeholder="Server"
+                (onChange)="service.setActiveServer($event.value)"></p-dropdown>
+  </ng-template>
+  <ng-template pTemplate="end">
+    <profile-menu></profile-menu>
+  </ng-template>
 </p-menubar>

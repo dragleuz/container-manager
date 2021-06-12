@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MenuItem} from "primeng/api";
 import {Server} from "@app/control/server.model";
 import {ControlService} from "@app/control/service/control-service";
+import {AuthService} from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-navbar',
@@ -31,6 +32,7 @@ export class MenuComponent implements OnInit {
 
   constructor(
     public service: ControlService,
+    public auth: AuthService
   ) {
   }
 

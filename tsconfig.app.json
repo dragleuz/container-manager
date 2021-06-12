@@ -9,7 +9,8 @@
       "@app/*": ["src/app/*"],
       "@assets/*": ["src/assets/*"],
       "@modules/*": ["src/app/modules/*"]
-    }
+    },
+    "resolveJsonModule": true
   },
   "files": [
     "src/main.ts",

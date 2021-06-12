@@ -1,2 +1,14 @@
-<app-navbar></app-navbar>
-<router-outlet></router-outlet>
+<div *ngIf="auth.isAuthenticated$ | async else login">
+
+  <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
+    <app-loading></app-loading>
+  </div>
+
+  <ng-template #loaded>
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+  </ng-template>
+</div>
+<ng-template #login>
+  <p-button label="Submit" icon="pi pi-check" (click)="auth.loginWithRedirect()"></p-button>
+</ng-template>

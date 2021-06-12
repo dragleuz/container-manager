@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, HostListener, OnInit} from '@angular/core';
 import {ScreenResService} from "@app/core/service/screen-res.service";
+import {AuthService} from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import {ScreenResService} from "@app/core/service/screen-res.service";
 export class AppComponent implements OnInit {
   constructor(
     private screenResService: ScreenResService,
+    public auth: AuthService,
   ) {
   }
 

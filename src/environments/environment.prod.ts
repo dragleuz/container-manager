@@ -1,3 +1,5 @@
+import {authConfig} from "src/app/core/configs/auth_config.prod";
+
 export const environment = {
   production: true,
   apiUrl: 'https://dragle-ops.herokuapp.com/',
@@ -9,5 +11,9 @@ export const environment = {
     messagingSenderId: "694524194653",
     appId: "1:694524194653:web:c91b5f3d9bad7ec3e402b4",
     measurementId: "G-2X3ZTZBBPH"
-  }
+  },
+  auth: {...authConfig, redirectUri: window.location.origin},
+  dev: {
+    serverUrl: authConfig.serverUrl,
+  },
 };

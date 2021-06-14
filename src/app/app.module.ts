@@ -34,8 +34,6 @@ import {RippleModule} from "primeng/ripple";
     AppRoutingModule,
     HttpClientModule,
     MenuModule,
-    ButtonModule,
-    RippleModule,
   ],
   providers: [],
   bootstrap: [

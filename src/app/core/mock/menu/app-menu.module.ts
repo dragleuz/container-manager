@@ -9,6 +9,9 @@ import {ProfileMenuComponent} from "@app/core/mock/profile-menu/profile-menu.com
 import {AvatarModule} from "primeng/avatar";
 import {InputTextModule} from "primeng/inputtext";
 import {ButtonModule} from "primeng/button";
+import {SplitButtonModule} from "primeng/splitbutton";
+import {MenuModule} from "primeng/menu";
+import {TieredMenuModule} from "primeng/tieredmenu";
 
 
 @NgModule({
@@ -20,7 +23,10 @@ import {ButtonModule} from "primeng/button";
     FormsModule,
     AvatarModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    SplitButtonModule,
+    MenuModule,
+    TieredMenuModule,
   ],
   exports: [
     MenuComponent,
@@ -32,5 +38,5 @@ import {ButtonModule} from "primeng/button";
   ],
   providers: [],
 })
-export class MenuModule {
+export class AppMenuModule {
 }

@@ -1,5 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {AuthService} from '@auth0/auth0-angular';
+import {DOCUMENT} from "@angular/common";
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'profile-menu',
@@ -9,10 +11,23 @@ import {AuthService} from '@auth0/auth0-angular';
 export class ProfileMenuComponent implements OnInit {
   profileJson: any = {};
 
-  constructor(public auth: AuthService) {
-  }
+  items: MenuItem[] = [
+    {
+      label: 'Profile',
+      icon: 'pi pi-user'
+    },
+    {
+      label: 'Logout',
+      icon: 'pi pi-sign-out',
+      command: _ => this.logout()
+    },
+  ]
 
-  img = 'https://avatars.githubusercontent.com/u/40654346?v=4';
+  constructor(
+    public auth: AuthService,
+    @Inject(DOCUMENT) private doc: Document
+  ) {
+  }
 
   ngOnInit(): void {
     this.auth.user$.subscribe(
@@ -21,4 +36,10 @@ export class ProfileMenuComponent implements OnInit {
       }
     )
   }
+
+
+  logout(): void {
+    this.auth.logout({returnTo: this.doc.location.origin});
+  }
+
 }

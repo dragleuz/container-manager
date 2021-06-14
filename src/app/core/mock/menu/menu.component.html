@@ -1,11 +1,9 @@
 <p-menubar [model]="items">
-
   <ng-template pTemplate="start">
     <p-dropdown [options]="servers" [(ngModel)]="activeServer" optionLabel="name" placeholder="Server"
                 (onChange)="service.setActiveServer($event.value)"></p-dropdown>
   </ng-template>
   <ng-template pTemplate="end">
     <profile-menu></profile-menu>
-    <p-button label="Submit" icon="pi pi-check" (click)="logout()"></p-button>
   </ng-template>
 </p-menubar>

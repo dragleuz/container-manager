@@ -4,7 +4,7 @@ import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ContainersRoutingModule} from "./containers-routing.module";
 import {ContainersComponent} from "../component/containers-component";
-import {MenuModule} from "../../core/mock/menu/menu.module";
+import {AppMenuModule} from "../../core/mock/menu/app-menu.module";
 import {TableModule} from "primeng/table";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
@@ -21,7 +21,7 @@ import {ScrollPanelModule} from "primeng/scrollpanel";
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MenuModule,
+    AppMenuModule,
     ButtonModule,
     RippleModule,
 

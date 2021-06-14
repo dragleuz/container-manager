@@ -1,17 +1,9 @@
-<!--    <div class="col-md-2 mb-3">
-      <img
-        [src]="user.picture"
-        alt="User's profile picture"
-        class="rounded-circle img-fluid profile-picture"
-      />
-    </div>
-    <div class="col-md text-center text-md-left">
-      <h2>{{ user.name }}</h2>
-      <p class="lead text-muted">{{ user.email }}</p>
-    </div>-->
-<!--  {{user | json}}-->
-<p-avatar *ngIf="auth.user$ | async as user"
-          styleClass="p-mr-2"
-          size="xlarge"
-          shape="circle"
-          [image]="profileJson.picture"></p-avatar>
+<div (click)="avatarMenu.toggle($event)" style="cursor: pointer">
+  <p-avatar *ngIf="auth.user$ | async as user"
+            styleClass="p-mr-2"
+            size="large"
+            shape="circle"
+            [image]="profileJson.picture">
+  </p-avatar>
+</div>
+<p-tieredMenu #avatarMenu [model]="items" [popup]="true"></p-tieredMenu>

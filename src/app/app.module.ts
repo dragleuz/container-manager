@@ -8,7 +8,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {AngularFireModule} from "@angular/fire";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {environment} from "@env/environment";
-import {MenuModule} from "@app/core/mock/menu/menu.module";
+import {AppMenuModule} from "@app/core/mock/menu/app-menu.module";
 import {AuthModule} from '@auth0/auth0-angular';
 import {LoadingComponent} from "@app/core/mock/loading/loading-component";
 import {ButtonModule} from "primeng/button";
@@ -33,7 +33,7 @@ import {RippleModule} from "primeng/ripple";
 
     AppRoutingModule,
     HttpClientModule,
-    MenuModule,
+    AppMenuModule,
   ],
   providers: [],
   bootstrap: [

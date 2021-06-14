@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {HttpService} from "../../core/service/http-service";
+import {HttpService} from "../../core/service/http.service";
 import {Observable, Subscription} from "rxjs";
 import {ContainerService} from "../service/container.service";
 import {take} from "rxjs/operators";
@@ -127,7 +127,6 @@ export class ContainersListComponent implements OnInit, OnDestroy {
     this.service.getContainer$('EGf4OV7fWX7VQJ6mrxjr')
       .pipe(take(1))
       .subscribe(c => {
-        console.log(c);
         this.service.save({
           ...c, RunCommand:
             {

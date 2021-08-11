@@ -1,5 +1,9 @@
 <p-menubar [model]="items">
   <ng-template pTemplate="start">
+<!--    <button pButton type="button" icon="pi pi-plus"
+            class="p-button-rounded p-button-outlined p-button-danger"
+            (click)="addContainer()"
+    ></button>-->
     <p-dropdown [options]="servers" [(ngModel)]="activeServer" optionLabel="name" placeholder="Server"
                 (onChange)="service.setActiveServer($event.value)"></p-dropdown>
   </ng-template>

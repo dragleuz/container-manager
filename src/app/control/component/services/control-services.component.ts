@@ -16,16 +16,15 @@ export class ControlServicesComponent implements OnInit, OnDestroy {
     {label: 'Nginx', service: 'nginx', status: false},
   ]
   loaded = false
-  cols = ['Service', 'Status', 'Actions'];
   activeServer: Server = {};
 
   constructor(
     private http: HttpService,
     private controlService: ControlService
   ) {
-    this.controlService.activeServer.subscribe(server => {
+    this.controlService.activeServer.subscribe(async server => {
       this.activeServer = server;
-      this.getServices();
+      await this.getServices();
     })
   }
 

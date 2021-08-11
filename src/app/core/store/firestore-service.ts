@@ -50,9 +50,10 @@ export abstract class FirestoreService<T> {
   }
 
   save(value: T, docId?: string): Promise<void> {
+    const id = docId || this.firestore.createId();
     let object = Object.assign(Object.assign({}, {docId}, value));
-    object.id = docId;
-    return this.collection.doc(docId).set(object, {merge: !!docId}).then(_ => {
+    object.id = id;
+    return this.collection.doc(id).set(object, {merge: !!docId}).then(_ => {
       if (!environment.production) {
         console.groupCollapsed(`Firestore Service [${this.basePath}] [create]`);
         console.log('[Id]', docId, value);

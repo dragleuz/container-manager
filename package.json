@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o --port=80",
-    "publish": "ng build && npm run deploy",
+    "publish-frontend": "ng build && npm run deploy",
     "deploy": "firebase deploy",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",

@@ -14,7 +14,8 @@ export class ControlService {
     return this._activeServer$;
   }
 
-  setActiveServer(server: Server) {
+  setActiveServer(server: any) {
+    localStorage.setItem('activeServer', JSON.stringify(server));
     this.activeServer$.next(server);
   }
 }

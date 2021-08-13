@@ -38,6 +38,7 @@ export class ProfileMenuComponent implements OnInit {
   }
 
   logout(): void {
+    localStorage.clear();
     this.auth.logout({returnTo: this.doc.location.origin});
   }
 

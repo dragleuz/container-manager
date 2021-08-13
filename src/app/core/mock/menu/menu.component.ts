@@ -19,7 +19,7 @@ export class MenuComponent implements OnInit {
     {'name': 'MobileAdmin', id: 'ma', url: ''},
   ]
 
-  activeServer: Server = this.servers[0];
+  activeServer: any;
 
   items: MenuItem[] = [
     {label: 'Containers', icon: 'pi pi-fw pi-home', routerLink: '/containers'},
@@ -40,6 +40,8 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
+    let serverFromSession = localStorage.getItem('activeServer') || '';
+    this.activeServer = serverFromSession ? JSON.parse(serverFromSession) : this.servers[0];
     this.service.setActiveServer(this.activeServer)
   }
 
